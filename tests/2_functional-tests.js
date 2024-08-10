@@ -15,13 +15,13 @@ suite('Functional Tests', function() {
         res.should.have.status(200);
         res.body.should.have.property('initNum').eql(10);
         res.body.should.have.property('initUnit').eql('l');
-        res.body.should.have.property('returnNum').that.is.a('number');
+        res.body.should.have.property('returnNum').that.is.a('number').and.equal(10 / 3.78541);
         res.body.should.have.property('returnUnit').eql('gal');
-        res.body.should.have.property('string').eql('10 liters converts to 2.6417217685798895 gallons');
+        res.body.should.have.property('string').eql('10 liters converts to 2.64172 gallons');
         done();
       });
   });
-  
+
   test('Convert an invalid input such as 32g: GET request to /api/convert', function(done) {
     chai.request(server)
       .get('/api/convert')
@@ -38,8 +38,8 @@ suite('Functional Tests', function() {
       .get('/api/convert')
       .query({ input: '3/7.2/4kg' })
       .end(function(err, res) {
-        res.should.have.status(400); // Change to 400 if this is the expected status
-        res.body.should.have.property('error').eql('Invalid number and unit');
+        res.should.have.status(400);
+        res.body.should.have.property('error').eql('Invalid number');
         done();
       });
   });

@@ -2,24 +2,30 @@ function ConvertHandler() {
 
   this.getNum = function(input) {
     let result;
-    let match = input.match(/(\d+(\.\d+)?(\/\d+(\.\d+)?)?)?/);
+    let match = input.match(/^(\d+(\.\d+)?(\/\d+(\.\d+)?)?)$/);
     if (match) {
-      result = eval(match[0]); // Use eval to handle fractions like 3/4
+      try {
+        result = eval(match[0]); // Use eval to handle fractions like 3/4
+        if (isNaN(result) || result <= 0) throw new Error('Invalid number');
+        return result;
+      } catch (e) {
+        return 'invalid'; // Return 'invalid' if evaluation fails
+      }
     }
-    if (isNaN(result)) result = 1; // Default to 1 if no number is found
-    return result;
+    return 1; // Default to 1 if no valid number is found
   };
 
   this.getUnit = function(input) {
-    let result;
     const units = ['gal', 'l', 'mi', 'km', 'lbs', 'kg'];
     let match = input.match(/[a-zA-Z]+$/);
-    if (match && units.includes(match[0].toLowerCase())) {
-      result = match[0].toLowerCase();
-    } else {
-      result = 'invalid'; // Return 'invalid' for unknown units
+    if (match) {
+      let unit = match[0].toLowerCase();
+      if (unit === 'l') {
+        return unit; // Special case for liters
+      }
+      return units.includes(unit) ? unit : 'invalid';
     }
-    return result;
+    return 'invalid'; // Return 'invalid' if no unit is found
   };
 
   this.getReturnUnit = function(initUnit) {
@@ -51,6 +57,10 @@ function ConvertHandler() {
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     let result;
+
+    if (initUnit === 'invalid' || isNaN(initNum) || initNum <= 0) {
+      return 'invalid'; // Return 'invalid' if unit is not found or number is invalid
+    }
     
     switch(initUnit) {
       case 'gal':
@@ -74,8 +84,8 @@ function ConvertHandler() {
       default:
         result = 'invalid'; // Return 'invalid' if unit is not found
     }
-    
-    return result;
+
+    return parseFloat(result.toFixed(5)); // Round result to 5 decimal places
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
