@@ -15,7 +15,7 @@ suite('Functional Tests', function() {
         res.should.have.status(200);
         res.body.should.have.property('initNum').eql(10);
         res.body.should.have.property('initUnit').eql('l');
-        res.body.should.have.property('returnNum').that.is.a('number').and.equal(10 / 3.78541);
+        res.body.should.have.property('returnNum').that.is.a('number').and.equal(parseFloat((10 / 3.78541).toFixed(5)));
         res.body.should.have.property('returnUnit').eql('gal');
         res.body.should.have.property('string').eql('10 liters converts to 2.64172 gallons');
         done();
@@ -60,8 +60,12 @@ suite('Functional Tests', function() {
       .get('/api/convert')
       .query({ input: 'kg' })
       .end(function(err, res) {
-        res.should.have.status(400);
-        res.body.should.have.property('error').eql('Invalid number');
+        res.should.have.status(200);
+        res.body.should.have.property('initNum').eql(1);
+        res.body.should.have.property('initUnit').eql('kg');
+        res.body.should.have.property('returnNum').that.is.a('number');
+        res.body.should.have.property('returnUnit').eql('lbs');
+        res.body.should.have.property('string').that.is.a('string');
         done();
       });
   });

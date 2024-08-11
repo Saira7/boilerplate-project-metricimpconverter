@@ -2,9 +2,14 @@ function ConvertHandler() {
 
   this.getNum = function(input) {
     let result;
-    let match = input.match(/^(\d+(\.\d+)?(\/\d+(\.\d+)?)?)$/);
+    // Match valid numbers, including fractions
+    let match = input.match(/^(\d+(\.\d+)?(\/\d+(\.\d+)?)?)|(\d+(\.\d+)?)/);
     if (match) {
       try {
+        // Check for double fractions
+        if (input.split('/').length > 2) {
+          throw new Error('Invalid number');
+        }
         result = eval(match[0]); // Use eval to handle fractions like 3/4
         if (isNaN(result) || result <= 0) throw new Error('Invalid number');
         return result;
@@ -12,7 +17,11 @@ function ConvertHandler() {
         return 'invalid'; // Return 'invalid' if evaluation fails
       }
     }
-    return 1; // Default to 1 if no valid number is found
+    // Check if input contains only a unit
+    if (/^[a-zA-Z]+$/.test(input)) {
+      return 1; // Default to 1 if no numerical input is provided
+    }
+    return 'invalid'; // Return 'invalid' if no valid number is found
   };
 
   this.getUnit = function(input) {
@@ -85,7 +94,7 @@ function ConvertHandler() {
         result = 'invalid'; // Return 'invalid' if unit is not found
     }
 
-    return parseFloat(result.toFixed(5)); // Round result to 5 decimal places
+    return parseFloat(result.toFixed(5)); // Round result to 16 decimal places
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {

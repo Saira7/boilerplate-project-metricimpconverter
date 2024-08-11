@@ -23,7 +23,7 @@ suite('Unit Tests', function() {
   });
 
   test('convertHandler should correctly return an error on a double-fraction (i.e. 3/2/3)', function() {
-    assert.equal(convertHandler.getNum('3/2/3gal'), 1.5); // Assuming you return 1 or handle this differently
+    assert.equal(convertHandler.getNum('3/2/3gal'), 'invalid'); 
   });
 
   test('convertHandler should correctly default to a numerical input of 1 when no numerical input is provided', function() {
