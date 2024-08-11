@@ -32,7 +32,7 @@ suite('Unit Tests', function() {
 
   test('convertHandler should correctly read each valid input unit', function() {
     assert.equal(convertHandler.getUnit('5gal'), 'gal');
-    assert.equal(convertHandler.getUnit('5L'), 'l');
+    assert.equal(convertHandler.getUnit('5L'), 'L');
     assert.equal(convertHandler.getUnit('5mi'), 'mi');
     assert.equal(convertHandler.getUnit('5km'), 'km');
     assert.equal(convertHandler.getUnit('5lbs'), 'lbs');
@@ -44,8 +44,8 @@ suite('Unit Tests', function() {
   });
 
   test('convertHandler should return the correct return unit for each valid input unit', function() {
-    assert.equal(convertHandler.getReturnUnit('gal'), 'l');
-    assert.equal(convertHandler.getReturnUnit('l'), 'gal');
+    assert.equal(convertHandler.getReturnUnit('gal'), 'L');
+    assert.equal(convertHandler.getReturnUnit('L'), 'gal');
     assert.equal(convertHandler.getReturnUnit('mi'), 'km');
     assert.equal(convertHandler.getReturnUnit('km'), 'mi');
     assert.equal(convertHandler.getReturnUnit('lbs'), 'kg');
@@ -54,7 +54,7 @@ suite('Unit Tests', function() {
 
   test('convertHandler should correctly return the spelled-out string unit for each valid input unit', function() {
     assert.equal(convertHandler.spellOutUnit('gal'), 'gallons');
-    assert.equal(convertHandler.spellOutUnit('l'), 'liters');
+    assert.equal(convertHandler.spellOutUnit('L'), 'liters');
     assert.equal(convertHandler.spellOutUnit('mi'), 'miles');
     assert.equal(convertHandler.spellOutUnit('km'), 'kilometers');
     assert.equal(convertHandler.spellOutUnit('lbs'), 'pounds');
@@ -66,7 +66,7 @@ suite('Unit Tests', function() {
   });
 
   test('convertHandler should correctly convert L to gal', function() {
-    assert.approximately(convertHandler.convert(1, 'l'), 0.264172, 0.00001);
+    assert.approximately(convertHandler.convert(1, 'L'), 0.264172, 0.00001);
   });
 
   test('convertHandler should correctly convert mi to km', function() {

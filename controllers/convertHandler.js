@@ -30,7 +30,7 @@ function ConvertHandler() {
     if (match) {
       let unit = match[0].toLowerCase();
       if (unit === 'l') {
-        return unit; // Special case for liters
+        return 'L'; // Special case for liters
       }
       return units.includes(unit) ? unit : 'invalid';
     }
@@ -39,20 +39,20 @@ function ConvertHandler() {
 
   this.getReturnUnit = function(initUnit) {
     const unitConversions = {
-      'gal': 'l',
-      'l': 'gal',
+      'gal': 'L',
+      'L': 'gal',
       'mi': 'km',
       'km': 'mi',
       'lbs': 'kg',
       'kg': 'lbs'
     };
-    return unitConversions[initUnit] || 'invalid'; // Return 'invalid' if unit is not found
+    return unitConversions[initUnit.toLowerCase()] || 'invalid'; // Return 'invalid' if unit is not found
   };
 
   this.spellOutUnit = function(unit) {
     const unitNames = {
       'gal': 'gallons',
-      'l': 'liters',
+      'L': 'liters',
       'mi': 'miles',
       'km': 'kilometers',
       'lbs': 'pounds',
@@ -71,7 +71,7 @@ function ConvertHandler() {
       return 'invalid'; // Return 'invalid' if unit is not found or number is invalid
     }
     
-    switch(initUnit) {
+    switch(initUnit.toLowerCase()) {
       case 'gal':
         result = initNum * galToL;
         break;
@@ -94,13 +94,13 @@ function ConvertHandler() {
         result = 'invalid'; // Return 'invalid' if unit is not found
     }
 
-    return parseFloat(result.toFixed(5)); // Round result to 16 decimal places
+    return parseFloat(result.toFixed(5)); // Round result to 5 decimal places
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
     const unitNames = {
       'gal': 'gallons',
-      'l': 'liters',
+      'L': 'liters',
       'mi': 'miles',
       'km': 'kilometers',
       'lbs': 'pounds',
